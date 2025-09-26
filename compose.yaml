@@ -1,0 +1,16 @@
+﻿services:
+  database:
+    build:
+      context: Database
+    ports:
+      - 5432:5432
+  webapi:
+    image: webapi
+    build:
+      context: .
+      dockerfile: WebApi/Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=database;User Id=postgres;Password=password;Database=postgres;"
+

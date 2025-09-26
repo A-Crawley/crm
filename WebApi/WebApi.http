@@ -1,0 +1,6 @@
+@WebApi_HostAddress = http://localhost:8080
+
+GET {{WebApi_HostAddress}}/api/v1/user/1
+Accept: application/json
+
+###
