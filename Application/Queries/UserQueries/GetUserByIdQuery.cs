@@ -1,8 +1,11 @@
+using Application.Interfaces;
 using Domain.DTOs;
 using Domain.Models;
 using Infrastructure.Database.Repositories;
 
-namespace Application;
+namespace Application.Queries.UserQueries;
+
+public record GetUserByIdQueryRequest(int Id): IQueryRequest;
 
 public interface IGetUserByIdQuery : IQuery<GetUserByIdQueryRequest, Result<UserDto>>; 
 

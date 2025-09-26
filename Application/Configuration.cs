@@ -1,3 +1,4 @@
+using Application.Queries.UserQueries;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;

@@ -1,6 +1,7 @@
+using Application.Interfaces;
 using Domain.Models;
 
-namespace Application;
+namespace Application.Queries;
 
 public interface IQuery<TIn,TOut> where TIn : IQueryRequest where TOut : Result
 { 

@@ -1,4 +1,5 @@
 using Application;
+using Application.Queries.UserQueries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
