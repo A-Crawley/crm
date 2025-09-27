@@ -20,7 +20,8 @@ public class UserController : ApiControllerBase
     {
         var user = await query.ExecuteAsync(new GetUserByIdQueryRequest(userId), cancellationToken);
         if (user.IsSuccess) return Ok(UserResponse.FromUser(user.Value));
-        return NotFound();
+        
+        return Error(user);
     }
 
     [HttpPost]
@@ -32,7 +33,8 @@ public class UserController : ApiControllerBase
     {
         var result = await command.ExecuteAsync(request.ToCommandRequest(), cancellationToken);
         if (result.IsSuccess) return Ok(UserResponse.FromUser(result.Value));
-        return BadRequest();
+        
+        return Error(result);
     }
     
 }

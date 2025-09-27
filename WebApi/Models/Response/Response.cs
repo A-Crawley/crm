@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace WebApi.Models.Response;
 
@@ -10,6 +11,7 @@ public enum ResponseType
 
 public class ApiResponse
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public ResponseType ResponseType { get; internal set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public object? Value { get; internal set; }

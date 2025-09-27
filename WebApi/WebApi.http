@@ -4,3 +4,12 @@ GET {{WebApi_HostAddress}}/api/v1/user/1
 Accept: application/json
 
 ###
+
+POST {{WebApi_HostAddress}}/api/v1/user
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "email@email.email",
+  "password": "Password1!"
+}

@@ -14,7 +14,7 @@ public class CreateUserCommand : Command<CreateUserCommandRequest, Result<UserDt
 {
     private readonly IUserRepository _userRepository;
 
-    public CreateUserCommand(IUserRepository userRepository, ILogger logger) : base(logger)
+    public CreateUserCommand(IUserRepository userRepository, ILogger<CreateUserCommand> logger) : base(logger)
     {
         _userRepository = userRepository;
     }
