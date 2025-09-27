@@ -1,6 +1,7 @@
 using Application.Commands.UserCommands;
 using Application.Queries.UserQueries;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
 using WebApi.Models.Request;
 using WebApi.Models.Response;
 
@@ -8,7 +9,7 @@ namespace WebApi.Controllers;
 
 [ApiController]
 [Route("api/v1/user")]
-public class UserController : ControllerBase
+public class UserController : ApiControllerBase
 {
     [HttpGet("{userId:int}")]
     public async Task<IActionResult> Get(
