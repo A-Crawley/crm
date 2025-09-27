@@ -37,8 +37,3 @@ public class Result<T> : Result where T : class
     public static implicit operator Result<T>(T value) => Success(value);
     public static implicit operator Result<T>(Error error) => Failure(error);
 }
-
-public class Error
-{
-    public static Error NotFoundError() => new();
-}
