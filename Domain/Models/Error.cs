@@ -13,4 +13,5 @@ public class Error
     }
     public static Error ConflictError(string? message = null) => new(ErrorType.Conflict, message);
     public static Error NotFoundError(string? message = null) => new(ErrorType.NotFound, message);
+    public static Error GeneralError(string message) => new (ErrorType.Generic, message);
 }

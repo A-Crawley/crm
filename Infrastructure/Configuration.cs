@@ -28,5 +28,6 @@ public static class Configuration
     {
         services.AddScoped<IDateTimeService, DateTimeService>();
         services.AddScoped<IHashingService, HashingService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
     }
 }

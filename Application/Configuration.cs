@@ -14,5 +14,6 @@ public static class Configuration
     public static void AddCommands(this IServiceCollection services)
     {
         services.AddScoped<ICreateUserCommand, CreateUserCommand>();
+        services.AddScoped<ILoginCommand, LoginCommand>();
     }
 }
