@@ -1,4 +1,5 @@
 using Application;
+using Domain.Settings;
 using Infrastructure;
 using Infrastructure.Database;
 
@@ -13,6 +14,7 @@ builder.Services.AddCommands();
 builder.Services.AddDatabaseContext(builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddServices();
 builder.Services.AddRepositories();
+builder.Services.AddSingleton(() => builder.Configuration.GetSection("AuthSettings").Get<AuthSettings>() ?? throw new Exception("AuthSettings not found"));
 
 var app = builder.Build();
 
