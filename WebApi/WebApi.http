@@ -12,7 +12,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "email@email.email",
+  "email": "email@email.emaill",
   "password": "Password1!"
 }
 

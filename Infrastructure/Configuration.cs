@@ -1,4 +1,5 @@
 using Domain.Interfaces;
+using Infrastructure.BackgroundWorkers;
 using Infrastructure.Database;
 using Infrastructure.Database.Repositories;
 using Infrastructure.Services;
@@ -15,8 +16,11 @@ public static class Configuration
         {
             options.UseNpgsql(connectionString);
         });
-        
-        services.AddScoped<AuditableInterceptor>();
+
+        services.AddScoped<AuditableColumnsInterceptor>();
+        services.AddScoped<AuditLogInterceptor>();
+        services.AddSingleton<AuditLogQueue>();
+        services.AddHostedService<AuditLogProcessor>();
     }
 
     public static void AddRepositories(this IServiceCollection services)

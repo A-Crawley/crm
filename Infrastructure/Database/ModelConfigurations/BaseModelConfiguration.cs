@@ -16,7 +16,7 @@ internal abstract class BaseModelConfiguration<T> : IEntityTypeConfiguration<T> 
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property(x => x.CreatedAt).IsRequired();
     }
-    
+
     public abstract void ConfigureInternal(EntityTypeBuilder<T> builder);
 
     private void ConfigureTable(EntityTypeBuilder<T> builder)

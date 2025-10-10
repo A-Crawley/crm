@@ -9,7 +9,7 @@ public class HashingService : IHashingService
 {
     private readonly string _salt = "asodkok123123";
     private readonly string _pepper = "asdasd";
-    
+
     public string Hash(string password)
     {
         var byteArray = SHA256.HashData(Season(password));

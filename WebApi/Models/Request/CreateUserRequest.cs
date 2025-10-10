@@ -7,10 +7,10 @@ public class CreateUserRequest
 {
     [Required]
     public required string Email { get; init; }
-    
+
     [Required]
     public required string Password { get; init; }
-    
+
 
     public CreateUserCommandRequest ToCommandRequest()
     {

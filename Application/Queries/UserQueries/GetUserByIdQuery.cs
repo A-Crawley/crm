@@ -5,9 +5,9 @@ using Infrastructure.Database.Repositories;
 
 namespace Application.Queries.UserQueries;
 
-public record GetUserByIdQueryRequest(int Id): IQueryRequest;
+public record GetUserByIdQueryRequest(int Id) : IQueryRequest;
 
-public interface IGetUserByIdQuery : IQuery<GetUserByIdQueryRequest, Result<UserDto>>; 
+public interface IGetUserByIdQuery : IQuery<GetUserByIdQueryRequest, Result<UserDto>>;
 
 public class GetUserByIdQuery : IGetUserByIdQuery
 {

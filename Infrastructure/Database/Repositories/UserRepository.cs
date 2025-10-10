@@ -21,7 +21,7 @@ public interface IUserRepository : IRepository
         string password,
         CancellationToken cancellationToken = default
     );
-    
+
     Task AddNewLoginSessionAsync(int userId, string refreshToken, CancellationToken cancellationToken = default);
 }
 
@@ -62,7 +62,7 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<UserDto?> CheckCredentialsAsync(
-        string email, 
+        string email,
         string password,
         CancellationToken cancellationToken = default
     )
@@ -82,7 +82,7 @@ public class UserRepository : IUserRepository
             RefreshToken = refreshToken,
             Expiry = _dateTimeService.Now.AddDays(7)
         };
-        
+
         await _context.AddAsync(loginSession, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }

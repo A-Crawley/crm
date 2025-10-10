@@ -19,5 +19,5 @@ public class AuthController : ApiControllerBase
         if (loginResponse.IsSuccess) return Ok(loginResponse.Value);
         return Error(loginResponse);
     }
-    
+
 }

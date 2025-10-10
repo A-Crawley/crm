@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Database.ModelConfigurations;
 
-internal sealed class UserConfigurations: BaseModelConfiguration<User>
+internal sealed class UserConfigurations : BaseModelConfiguration<User>
 {
     public override void ConfigureInternal(EntityTypeBuilder<User> builder)
     {

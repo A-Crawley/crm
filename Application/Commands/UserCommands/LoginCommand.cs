@@ -30,10 +30,10 @@ public class LoginCommand : Command<LoginCommandRequest, Result<LoginResponse>>,
     {
         var user = await _userRepository.CheckCredentialsAsync(request.Email, request.Password, cancellationToken);
         if (user is null) return Error.NotFoundError();
-        
+
         var loginModel = await _authenticationService.GenerateJwtAsync(user.Id, cancellationToken);
         if (loginModel is null) return Error.GeneralError("Issue generating token");
-        
+
         await _userRepository.AddNewLoginSessionAsync(user.Id, loginModel.RefreshToken, cancellationToken);
         return loginModel;
     }

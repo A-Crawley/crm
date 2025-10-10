@@ -11,7 +11,7 @@ public class ApiControllerBase : ControllerBase
     {
         return new OkObjectResult(ApiResponse.Success()) { StatusCode = 200 };
     }
-    
+
     public new OkObjectResult Ok(object value)
     {
         return new OkObjectResult(ApiResponse.Success(value)) { StatusCode = 200 };

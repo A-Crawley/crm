@@ -25,7 +25,7 @@ public class AuthenticationService : IAuthenticationService
         _context = context;
         _dateTimeService = dateTimeService;
     }
-    
+
     public async Task<LoginResponse?> GenerateJwtAsync(int userId, CancellationToken cancellationToken)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == userId, cancellationToken);
@@ -46,12 +46,12 @@ public class AuthenticationService : IAuthenticationService
             new (JwtRegisteredClaimNames.Nbf, _dateTimeService.Now.ToUnixTimeSeconds().ToString()),
             new (JwtRegisteredClaimNames.Sub, user.Id.ToString())
         };
-        
+
         var claimsIdentity = new ClaimsIdentity(claims);
-        
+
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Secret));
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-        
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = claimsIdentity,
@@ -60,7 +60,7 @@ public class AuthenticationService : IAuthenticationService
             Audience = Audience,
             SigningCredentials = signingCredentials
         };
-        
+
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
         var jwtString = tokenHandler.WriteToken(token);
