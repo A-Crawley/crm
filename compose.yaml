@@ -4,6 +4,14 @@
       context: Database
     ports:
       - 5432:5432
+  seq:
+    image: datalust/seq
+    ports:
+      - 8081:80
+      - 5341:5341
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_NOAUTHENTICATION: true
   webapi:
     image: webapi
     build:
@@ -13,4 +21,6 @@
       - 8080:8080
     environment:
       ConnectionStrings__DefaultConnection: "Host=database;User Id=postgres;Password=password;Database=postgres;"
+      Seq__ServerUrl: "http://seq:5341"
+      ASPNETCORE_ENVIRONMENT: Development
 

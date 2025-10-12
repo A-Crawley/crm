@@ -1,5 +1,6 @@
 using Infrastructure.Database;
 using Infrastructure.Database.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -26,15 +27,15 @@ public class AuditLogQueue
 
 public class AuditLogProcessor : BackgroundService
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<AuditLog> _logger;
     private readonly AuditLogQueue _auditLogQueue;
-    private readonly IContext _context;
 
-    public AuditLogProcessor(ILogger<AuditLog> logger, AuditLogQueue auditLogQueue, IContext context)
+    public AuditLogProcessor(IServiceScopeFactory serviceScopeFactory, ILogger<AuditLog> logger, AuditLogQueue auditLogQueue)
     {
+        _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
         _auditLogQueue = auditLogQueue;
-        _context = context;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -51,7 +52,10 @@ public class AuditLogProcessor : BackgroundService
             }
 
             _logger.LogInformation("Processing audit log...");
-            await _context.AddAuditAsync(itemToProcess, stoppingToken);
+            using var scope = _serviceScopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<IContext>();
+            if (context is null) throw new  ArgumentNullException(nameof(context));
+            await context.AddAuditAsync(itemToProcess, stoppingToken);
         }
     }
 }
