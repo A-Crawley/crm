@@ -17,7 +17,7 @@ builder.Services.AddHttpLogging(options =>
     options.LoggingFields = HttpLoggingFields.Request |
                             HttpLoggingFields.RequestBody |
                             HttpLoggingFields.RequestPath |
-                            HttpLoggingFields.Response | 
+                            HttpLoggingFields.Response |
                             HttpLoggingFields.ResponseBody;
 });
 

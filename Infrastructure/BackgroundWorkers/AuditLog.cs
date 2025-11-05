@@ -54,7 +54,7 @@ public class AuditLogProcessor : BackgroundService
             _logger.LogInformation("Processing audit log...");
             using var scope = _serviceScopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<IContext>();
-            if (context is null) throw new  ArgumentNullException(nameof(context));
+            if (context is null) throw new ArgumentNullException(nameof(context));
             await context.AddAuditAsync(itemToProcess, stoppingToken);
         }
     }
