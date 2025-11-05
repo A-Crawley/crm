@@ -2,44 +2,10 @@ using Domain.DTOs;
 using Domain.Interfaces;
 using Domain.Models.User;
 using Infrastructure.Database.Entities;
+using Infrastructure.Database.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Database.Repositories;
-
-public interface IRepository;
-
-public interface IUserRepository : IRepository
-{
-    Task<UserDto?> GetAsync(int id, CancellationToken cancellationToken = default);
-    Task<bool> EmailInUse(string email, CancellationToken cancellationToken = default);
-    Task<UserDto> CreateUserAsync(CreateUserRequest request, CancellationToken cancellationToken = default);
-
-    Task<UserDto?> CheckCredentialsAsync(
-        string email,
-        string password,
-        CancellationToken cancellationToken = default
-    );
-
-    Task AddNewLoginSessionAsync(int userId, string refreshToken, CancellationToken cancellationToken = default);
-}
-
-public abstract class RepositoryBase<TEntity, TDto> where TEntity : Entity
-where TDto : class
-{
-    protected readonly IContext Context;
-
-    protected RepositoryBase(IContext context)
-    {
-        Context = context;
-    }
-
-    public async Task<TDto?> GetAsync(int id, CancellationToken cancellationToken = default)
-    {
-        return await Map(Context.Set<TEntity>().Where(x => x.Id == id)).FirstOrDefaultAsync(cancellationToken);
-    }
-
-    protected abstract IQueryable<TDto> Map(IQueryable<TEntity> queryable);
-}
 
 public class UserRepository : RepositoryBase<User, UserDto>, IUserRepository
 {

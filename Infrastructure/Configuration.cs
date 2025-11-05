@@ -1,6 +1,7 @@
 using Domain.Interfaces;
 using Infrastructure.BackgroundWorkers;
 using Infrastructure.Database;
+using Infrastructure.Database.Interfaces;
 using Infrastructure.Database.Repositories;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;

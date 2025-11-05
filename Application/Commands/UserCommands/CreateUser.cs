@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Domain.DTOs;
 using Domain.Models;
+using Infrastructure.Database.Interfaces;
 using Infrastructure.Database.Repositories;
 using Microsoft.Extensions.Logging;
 
