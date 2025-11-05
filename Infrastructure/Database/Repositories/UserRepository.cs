@@ -1,7 +1,5 @@
-using System.ComponentModel.DataAnnotations;
 using Domain.DTOs;
 using Domain.Interfaces;
-using Domain.Models;
 using Domain.Models.User;
 using Infrastructure.Database.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,27 +23,39 @@ public interface IUserRepository : IRepository
     Task AddNewLoginSessionAsync(int userId, string refreshToken, CancellationToken cancellationToken = default);
 }
 
-public class UserRepository : IUserRepository
+public abstract class RepositoryBase<TEntity, TDto> where TEntity : Entity
+where TDto : class
 {
-    private readonly IContext _context;
+    protected readonly IContext Context;
+
+    protected RepositoryBase(IContext context)
+    {
+        Context = context;
+    }
+    
+    public async Task<TDto?> GetAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await Map(Context.Set<TEntity>().Where(x => x.Id == id)).FirstOrDefaultAsync(cancellationToken);
+    }
+    
+    protected abstract IQueryable<TDto> Map(IQueryable<TEntity> queryable);
+}
+
+public class UserRepository : RepositoryBase<User, UserDto>, IUserRepository
+{
     private readonly IDateTimeService _dateTimeService;
     private readonly IHashingService _hashingService;
 
     public UserRepository(IContext context, IDateTimeService dateTimeService, IHashingService hashingService)
+    : base(context)
     {
-        _context = context;
         _dateTimeService = dateTimeService;
         _hashingService = hashingService;
     }
 
-    public async Task<UserDto?> GetAsync(int id, CancellationToken cancellationToken = default)
-    {
-        return await MapToDto(_context.Users.Where(x => x.Id == id)).FirstOrDefaultAsync(cancellationToken);
-    }
-
     public async Task<bool> EmailInUse(string email, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.AnyAsync(x => x.Email == email && x.ArchivedAt == null, cancellationToken);
+        return await Context.Users.AnyAsync(x => x.Email == email && x.ArchivedAt == null, cancellationToken);
     }
 
     public async Task<UserDto> CreateUserAsync(CreateUserRequest request, CancellationToken cancellationToken = default)
@@ -56,8 +66,8 @@ public class UserRepository : IUserRepository
             Email = request.Email,
             PasswordHash = passwordHash
         };
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync(cancellationToken);
+        Context.Users.Add(user);
+        await Context.SaveChangesAsync(cancellationToken);
         return (await GetAsync(user.Id, cancellationToken))!;
     }
 
@@ -68,8 +78,8 @@ public class UserRepository : IUserRepository
     )
     {
         var passwordHash = _hashingService.Hash(password);
-        var user = await MapToDto(
-                _context.Users.Where(x => x.Email == email && x.PasswordHash == passwordHash)
+        var user = await Map(
+                Context.Users.Where(x => x.Email == email && x.PasswordHash == passwordHash)
                 ).SingleOrDefaultAsync(cancellationToken);
         return user;
     }
@@ -83,11 +93,11 @@ public class UserRepository : IUserRepository
             Expiry = _dateTimeService.Now.AddDays(7)
         };
 
-        await _context.AddAsync(loginSession, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        await Context.AddAsync(loginSession, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
     }
 
-    private static IQueryable<UserDto> MapToDto(IQueryable<User> query)
+    protected override IQueryable<UserDto> Map(IQueryable<User> query)
     {
         return query.Select(u =>
             new UserDto(

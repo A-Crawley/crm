@@ -9,6 +9,7 @@ public class Context : DbContext, IContext
     private readonly AuditableColumnsInterceptor _auditableColumnsInterceptor;
     private readonly AuditLogInterceptor _auditLogInterceptor;
     public DbSet<User> Users { get; set; }
+
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<AuditLog> AuditLog { get; set; }
 

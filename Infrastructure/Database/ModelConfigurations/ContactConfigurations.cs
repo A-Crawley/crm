@@ -5,7 +5,7 @@ namespace Infrastructure.Database.ModelConfigurations;
 
 internal sealed class ContactConfigurations : BaseModelConfiguration<Contact>
 {
-    public override void ConfigureInternal(EntityTypeBuilder<Contact> builder)
+    protected override void ConfigureInternal(EntityTypeBuilder<Contact> builder)
     {
         builder.Property(x => x.FirstName).IsRequired();
         builder.Property(x => x.LastName).IsRequired();
