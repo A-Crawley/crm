@@ -8,7 +8,7 @@ public struct Email : IComparable<Email>, IEquatable<Email>
     {
         _value = value.Trim().ToLower();
     }
-    
+
     public int CompareTo(Email other)
     {
         return string.Compare(_value, other._value, StringComparison.Ordinal);
@@ -33,7 +33,7 @@ public struct Email : IComparable<Email>, IEquatable<Email>
     {
         return _value;
     }
-    
+
     public static bool operator ==(Email left, Email right)
     {
         return left.Equals(right);
@@ -43,7 +43,7 @@ public struct Email : IComparable<Email>, IEquatable<Email>
     {
         return !(left == right);
     }
-    
-    public static implicit operator Email(string s) => new (s);
+
+    public static implicit operator Email(string s) => new(s);
     public static implicit operator string(Email e) => e.ToString();
 }
